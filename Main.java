@@ -1,14 +1,22 @@
+import java.util.*;
+
+interface Vehicle{
+    void displayInfo();    
+}
+
 class UserInfo{
     private String userName;
-    private int age;
     
-    public UserInfo(String userName, int age){
-        this.userName = userName;
-        this.age = age;
+    public UserInfo(String userName){
+        this.userName = userName; 
+    }
+    
+    public String getName(){
+        return userName;
     }
 }
 
-class Wagonr {
+class Wagonr implements Vehicle{
     private String currDate;
     private final String last_vehicle_service_date = "12 November 2024";
     
@@ -23,7 +31,7 @@ class Wagonr {
     }
 }
 
-class HondaCity {
+class HondaCity implements Vehicle{
     private String currDate;
     private final String last_vehicle_service_date = "24 October 2024";
     
@@ -38,7 +46,7 @@ class HondaCity {
     }
 }
 
-class Duke390{
+class Duke390 implements Vehicle{
     private String currDate;
     private final String last_vehicle_service_date = "24 July 2024";
     
@@ -56,7 +64,32 @@ class Duke390{
 public class Main
 {
     public static void main(String[] args) {
-        Wagonr wagon = new Wagonr("24 October 2024");
-        wagon.displayInfo();
+        System.out.println("Welcome to my Garage:- ");
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter Your Name:- ");
+        String userName = sc.nextLine();
+        UserInfo user = new UserInfo(userName);
+        
+        
+        System.out.print("Press 1 to display the fourwheelers info, and Press 2 to diplay the Two wheelers info:- ");
+        int userChoice = sc.nextInt();
+        ArrayList<Vehicle> vehicles = new ArrayList<>();
+        switch (userChoice) {
+            case 1:
+                vehicles.add(new Wagonr("14 December 2024"));
+                vehicles.add(new HondaCity("14 December 2024"));
+                break;
+            case 2:
+                vehicles.add(new Duke390("14 December 2024"));
+                break;
+            default:
+                System.out.println("Invalid category of vehicle selected!!");
+                return;
+        }
+        
+        System.out.println("Hey " + user.getName() + ", here are the list of all the vehicles you have in your garage");
+        for (Vehicle vehicle : vehicles) {
+            vehicle.displayInfo();
+        }
     }
 }
