@@ -6,6 +6,7 @@ interface Vehicle {
 
 class UserInfo {
     private String userName;
+
     public static int totalUsers = 0; // Static variable to keep track of total users
 
     public UserInfo(String userName) {
@@ -43,7 +44,6 @@ class Wagonr implements Vehicle {
 class HondaCity implements Vehicle {
     private String currDate;
     private final String last_vehicle_service_date = "24 October 2024";
-
     public HondaCity(String currDate) {
         this.currDate = currDate;
         Wagonr.totalVehicles++; // Reusing static variable to count all four-wheelers
@@ -60,7 +60,6 @@ class HondaCity implements Vehicle {
 class Duke390 implements Vehicle {
     private String currDate;
     private final String last_vehicle_service_date = "24 July 2024";
-
     public Duke390(String currDate) {
         this.currDate = currDate;
         Wagonr.totalVehicles++; // Reusing static variable to count all vehicles, including two-wheelers
@@ -84,7 +83,6 @@ public class Main {
 
         // Dynamic memory allocation for UserInfo object
         UserInfo user = new UserInfo(userName);
-
         System.out.print("Press 1 to display the four-wheelers info, and Press 2 to display the two-wheelers info:- ");
         int userChoice = sc.nextInt();
         ArrayList<Vehicle> vehicles = new ArrayList<>();
@@ -115,7 +113,6 @@ public class Main {
 
         System.out.println("Total users so far: " + UserInfo.getTotalUsers());
         System.out.println("Total vehicles recorded in the system: " + Wagonr.totalVehicles);
-
         sc.close(); 
     }
 }
