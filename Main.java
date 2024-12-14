@@ -26,7 +26,7 @@ class UserInfo {
 class Wagonr implements Vehicle {
     private String currDate;
     private final String last_vehicle_service_date = "12 November 2024";
-    public static int totalVehicles = 0; // Static variable to count the total vehicles created
+    public static int totalVehicles = 0; // Static variable to count the total veclahicles created
 
     public Wagonr(String currDate) {
         this.currDate = currDate;
@@ -38,6 +38,11 @@ class Wagonr implements Vehicle {
         System.out.print("Distance driven:- 100km, ");
         System.out.print("Mileage from the vehicle:- 15kmpl, Last service date:- " + last_vehicle_service_date);
         System.out.println();
+    }
+
+    // Static method to get total vehicle count
+    public static int getTotalVehicles() {
+        return totalVehicles;
     }
 }
 
@@ -111,8 +116,10 @@ public class Main {
             vehicle = null; // Marks the object for garbage collection
         }
 
+        // Demonstrating the use of static functions
         System.out.println("Total users so far: " + UserInfo.getTotalUsers());
-        System.out.println("Total vehicles recorded in the system: " + Wagonr.totalVehicles);
+        System.out.println("Total vehicles recorded in the system: " + Wagonr.getTotalVehicles());
+
         sc.close(); 
     }
 }
