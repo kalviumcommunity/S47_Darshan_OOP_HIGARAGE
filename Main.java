@@ -1,141 +1,152 @@
 import java.util.*;
 
+// Interface to define the behavior of all vehicles
 interface Vehicle {
-    // Abstraction: Specifies the common behavior for all vehicles without showing how it is implemented.
-    void displayInfo();    
+    void displayInfo(); // Common method for all vehicles
 }
 
+// Class to manage user information
 class UserInfo {
-    private String userName; // Encapsulation: userName is private to restrict direct access.
-    
-    public static int totalUsers = 0; // Public: totalUsers is accessible globally to track all users.
+    private String userName; // Stores user name (Encapsulation)
+    public static int totalUsers = 0; // Tracks total number of users
 
+    // Constructor to initialize userName and increment user count
     public UserInfo(String userName) {
-        this.userName = userName; // Encapsulation: Private field set via constructor.
-        totalUsers++; // Increments totalUsers whenever a new UserInfo object is created.
+        this.userName = userName;
+        totalUsers++;
     }
 
-    public String getName() { // Public getter method to access private userName.
+    // Getter to access the user name
+    public String getName() {
         return userName;
     }
 
-    public void setName(String userName) { // Public setter method to update private userName.
+    // Setter to update the user name
+    public void setName(String userName) {
         this.userName = userName;
     }
 
-    public static int getTotalUsers() { // Public method to retrieve total users.
+    // Static method to get the total user count
+    public static int getTotalUsers() {
         return totalUsers;
     }
 }
 
+// Class to represent the Wagonr vehicle
 class Wagonr implements Vehicle {
-    private String currDate; // Encapsulation: currDate is private to prevent external modification.
-    private final String lastVehicleServiceDate = "12 November 2024"; // Private constant field, cannot be modified.
+    private String currDate; // Stores current date
+    private final String lastVehicleServiceDate = "12 November 2024"; // Service date (constant)
+    public static int totalVehicles = 0; // Tracks total number of vehicles of any type
 
-    public static int totalVehicles = 0; // Public: Tracks the total number of vehicles globally.
-
+    // Constructor to initialize currDate and increment vehicle count
     public Wagonr(String currDate) {
-        this.currDate = currDate; // Encapsulation: currDate is initialized through the constructor.
-        totalVehicles++; // Updates the total vehicle count for all vehicles.
+        this.currDate = currDate;
+        totalVehicles++;
     }
 
-    public void displayInfo() { // Abstraction: Implementation of the abstract method from the Vehicle interface.
-        System.out.println("Displaying info about Wagonr!!");
-        System.out.print("Distance driven:- 100km, ");
-        System.out.print("Mileage from the vehicle:- 15kmpl, Last service date:- " + lastVehicleServiceDate);
-        System.out.println();
+    // Displays information about the Wagonr
+    public void displayInfo() {
+        System.out.println("Displaying info about Wagonr:");
+        System.out.println("Distance driven: 100km, Mileage: 15kmpl, Last service date: " + lastVehicleServiceDate);
     }
 
-    public static int getTotalVehicles() { // Public method to retrieve the total vehicle count.
+    // Static method to get the total vehicle count
+    public static int getTotalVehicles() {
         return totalVehicles;
     }
 }
 
+// Class to represent the HondaCity vehicle
 class HondaCity implements Vehicle {
-    private String currDate; // Encapsulation: currDate is private to restrict direct access.
-    private final String lastVehicleServiceDate = "24 October 2024"; // Private constant for service date.
+    private String currDate; // Stores current date
+    private final String lastVehicleServiceDate = "24 October 2024"; // Service date (constant)
 
+    // Constructor to initialize currDate and increment vehicle count
     public HondaCity(String currDate) {
-        this.currDate = currDate; // Encapsulation: currDate is set via the constructor.
-        Wagonr.totalVehicles++; // Updates the shared vehicle count.
+        this.currDate = currDate;
+        Wagonr.totalVehicles++;
     }
 
-    public void displayInfo() { // Abstraction: HondaCity-specific implementation of displayInfo.
-        System.out.println("Displaying info about HondaCity!!");
-        System.out.print("Distance driven:- 50km, ");
-        System.out.print("Mileage from the vehicle:- 10kmpl, Last service date:- " + lastVehicleServiceDate);
-        System.out.println();
+    // Displays information about the HondaCity
+    public void displayInfo() {
+        System.out.println("Displaying info about HondaCity:");
+        System.out.println("Distance driven: 50km, Mileage: 10kmpl, Last service date: " + lastVehicleServiceDate);
     }
 }
 
+// Class to represent the Duke390 vehicle
 class Duke390 implements Vehicle {
-    private String currDate; // Encapsulation: currDate is private to restrict access.
-    private final String lastVehicleServiceDate = "24 July 2024"; // Private constant for service date.
+    private String currDate; // Stores current date
+    private final String lastVehicleServiceDate = "24 July 2024"; // Service date (constant)
 
+    // Constructor to initialize currDate and increment vehicle count
     public Duke390(String currDate) {
-        this.currDate = currDate; // Encapsulation: currDate is set through the constructor.
-        Wagonr.totalVehicles++; // Updates the shared vehicle count.
+        this.currDate = currDate;
+        Wagonr.totalVehicles++;
     }
 
-    public void displayInfo() { // Abstraction: Duke390-specific implementation of displayInfo.
-        System.out.println("Displaying info about Duke390!!");
-        System.out.print("Distance driven:- 250km, ");
-        System.out.print("Mileage from the vehicle:- 8kmpl, Last service date:- " + lastVehicleServiceDate);
-        System.out.println();
+    // Displays information about the Duke390
+    public void displayInfo() {
+        System.out.println("Displaying info about Duke390:");
+        System.out.println("Distance driven: 250km, Mileage: 8kmpl, Last service date: " + lastVehicleServiceDate);
     }
 }
 
+// Main class to interact with the user
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Welcome to my Garage:- ");
         Scanner sc = new Scanner(System.in);
 
-        // Prompting user for their information
-        System.out.print("Enter Your Name:- ");
+        System.out.println("Welcome to my Garage!");
+
+        // Collect user information
+        System.out.print("Enter Your Name: ");
         String userName = sc.nextLine();
+        UserInfo user = new UserInfo(userName);
 
-        UserInfo user = new UserInfo(userName); // Encapsulation: UserInfo object handles user details privately.
-
-        // Option to update user name
+        // Option to update the user name
         System.out.print("Would you like to update your name? (yes/no): ");
         String updateNameChoice = sc.nextLine();
         if (updateNameChoice.equalsIgnoreCase("yes")) {
             System.out.print("Enter your new name: ");
             String newName = sc.nextLine();
-            user.setName(newName); // Updating the private field via setter method.
+            user.setName(newName);
         }
 
-        // Prompting user to choose a vehicle category
-        System.out.print("Press 1 to display the four-wheelers info, and Press 2 to display the two-wheelers info:- ");
+        // Prompt to choose a vehicle category
+        System.out.print("Press 1 for four-wheelers, or 2 for two-wheelers: ");
         int userChoice = sc.nextInt();
+
         ArrayList<Vehicle> vehicles = new ArrayList<>();
 
-        // Adding vehicles based on user choice
+        // Add vehicles based on the user’s choice
         switch (userChoice) {
             case 1:
-                vehicles.add(new Wagonr("14 December 2024")); // Four-wheeler added to list.
-                vehicles.add(new HondaCity("14 December 2024")); // Four-wheeler added to list.
+                vehicles.add(new Wagonr("14 December 2024"));
+                vehicles.add(new HondaCity("14 December 2024"));
                 break;
 
             case 2:
-                vehicles.add(new Duke390("14 December 2024")); // Two-wheeler added to list.
+                vehicles.add(new Duke390("14 December 2024"));
                 break;
 
             default:
-                System.out.println("Invalid category of vehicle selected!!");
-                return; // Exit program for invalid input.
+                System.out.println("Invalid category selected!");
+                sc.close();
+                return;
         }
 
-        // Displaying vehicle info
-        System.out.println("Hey " + user.getName() + ", here are the list of all the vehicles you have in your garage:");
+        // Display vehicle information
+        System.out.println("\nHey " + user.getName() + ", here are the vehicles in your garage:");
         for (Vehicle vehicle : vehicles) {
-            vehicle.displayInfo(); // Polymorphism: displayInfo() called on different vehicle types.
+            vehicle.displayInfo();
+            vehicle = null;
         }
 
-        // Displaying total users and vehicles
-        System.out.println("Total users so far: " + UserInfo.getTotalUsers());
-        System.out.println("Total vehicles recorded in the system: " + Wagonr.getTotalVehicles());
+        // Display total counts
+        System.out.println("\nTotal users so far: " + UserInfo.getTotalUsers());
+        System.out.println("Total vehicles recorded: " + Wagonr.getTotalVehicles());
 
-        sc.close(); // Closing the scanner resource.
+        sc.close();
     }
 }
