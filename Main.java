@@ -39,6 +39,9 @@ abstract class BaseVehicle implements Vehicle {
     public BaseVehicle(String serviceDate) {
         this.lastServiceDate = serviceDate;
     }
+
+    @Override
+    public abstract void displayInfo(); // Ensures derived classes implement this
 }
 
 // Class to represent four-wheelers (base for all four-wheelers)
