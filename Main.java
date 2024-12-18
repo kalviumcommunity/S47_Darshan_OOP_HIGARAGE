@@ -35,6 +35,7 @@ class UserInfo {
 // Parent class for four-wheelers (Inheritance Example 1: Class Inheritance)
 class FourWheeler implements Vehicle {
     protected String lastVehicleServiceDate; // Service date (protected for inheritance)
+    public static int totalVehicles = 0; // Tracks total number of vehicles
 
     public FourWheeler(String serviceDate) {
         this.lastVehicleServiceDate = serviceDate;
@@ -48,10 +49,16 @@ class FourWheeler implements Vehicle {
 
 // Class to represent the Wagonr vehicle (inherits from FourWheeler)
 class Wagonr extends FourWheeler {
-    public static int totalVehicles = 0; // Tracks total number of vehicles
 
+    // Default constructor
+    public Wagonr() {
+        super("Default Service Date"); // Call parent constructor with a default value
+        totalVehicles++;
+    }
+
+    // Overloaded constructor
     public Wagonr(String currDate) {
-        super("12 November 2024"); // Call the parent constructor
+        super("12 November 2024"); // Call parent constructor with a specific date
         totalVehicles++;
     }
 
@@ -68,6 +75,13 @@ class Wagonr extends FourWheeler {
 
 // Class to represent the HondaCity vehicle (inherits from FourWheeler)
 class HondaCity extends FourWheeler {
+
+    // Default constructor
+    public HondaCity() {
+        super("Default Service Date"); // Call parent constructor with a default value
+        totalVehicles++;
+    }
+
     public HondaCity(String currDate) {
         super("24 October 2024"); // Pass service date to parent class
         Wagonr.totalVehicles++;
@@ -84,6 +98,11 @@ class HondaCity extends FourWheeler {
 class Duke390 implements Vehicle {
     private String currDate;
     private final String lastVehicleServiceDate = "24 July 2024";
+
+    // Default constructor
+    public Duke390() {
+        Wagonr.totalVehicles++;
+    }
 
     public Duke390(String currDate) {
         this.currDate = currDate;
