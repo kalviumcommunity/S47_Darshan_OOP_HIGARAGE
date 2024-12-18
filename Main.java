@@ -108,6 +108,22 @@ class VehicleService {
     }
 }
 
+// Factory class to create vehicles dynamically (adhering to OCP)
+class VehicleFactory {
+    public static Vehicle createVehicle(String type, String serviceDate) {
+        switch (type.toLowerCase()) {
+            case "wagonr":
+                return new Wagonr(serviceDate);
+            case "hondacity":
+                return new HondaCity(serviceDate);
+            case "duke390":
+                return new Duke390(serviceDate);
+            default:
+                throw new IllegalArgumentException("Unknown vehicle type: " + type);
+        }
+    }
+}
+
 // Main class to handle user interaction
 public class Main {
     public static void main(String[] args) {
@@ -129,27 +145,20 @@ public class Main {
             user.setName(newName);
         }
 
-        // Prompt to choose a vehicle category
-        System.out.print("Press 1 for four-wheelers, or 2 for two-wheelers: ");
-        int userChoice = sc.nextInt();
+        // Prompt to choose vehicle types
+        System.out.println("Available vehicles: Wagonr, HondaCity, Duke390");
+        System.out.print("Enter the type of vehicle you want to add (comma-separated for multiple): ");
+        String[] vehicleTypes = sc.nextLine().split(",");
 
         VehicleService vehicleService = new VehicleService();
 
-        // Add vehicles based on the user’s choice
-        switch (userChoice) {
-            case 1:
-                vehicleService.addVehicle(new Wagonr("14 December 2024"));
-                vehicleService.addVehicle(new HondaCity("14 December 2024"));
-                break;
-
-            case 2:
-                vehicleService.addVehicle(new Duke390("14 December 2024"));
-                break;
-
-            default:
-                System.out.println("Invalid category selected!");
-                sc.close();
-                return;
+        // Add vehicles based on user input
+        for (String vehicleType : vehicleTypes) {
+            try {
+                vehicleService.addVehicle(VehicleFactory.createVehicle(vehicleType.trim(), "14 December 2024"));
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }
         }
 
         // Display vehicle information
