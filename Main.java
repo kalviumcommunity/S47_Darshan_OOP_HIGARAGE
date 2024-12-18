@@ -1,16 +1,14 @@
 import java.util.*;
 
 // Interface to define the behavior of all vehicles
-// Created an interface which will be serving as a base class to all the vehicles. 
 interface Vehicle {
-    // created a virtual function with no return type
     void displayInfo(); // Common method for all vehicles
 }
 
 // Class to manage user information
 class UserInfo {
     private String userName; // Stores user name (Encapsulation)
-    public static int totalUsers = 0; // Tracks total number of users
+    private static int totalUsers = 0; // Tracks total number of users
 
     // Constructor to initialize userName and increment user count
     public UserInfo(String userName) {
@@ -34,13 +32,19 @@ class UserInfo {
     }
 }
 
-// Parent class for four-wheelers (Inheritance Example 1: Class Inheritance)
-class FourWheeler implements Vehicle {
-    protected String lastVehicleServiceDate; // Service date (protected for inheritance)
-    public static int totalVehicles = 0; // Tracks total number of vehicles
+// Abstract class for common vehicle properties
+abstract class BaseVehicle implements Vehicle {
+    protected String lastServiceDate; // Service date (protected for inheritance)
 
+    public BaseVehicle(String serviceDate) {
+        this.lastServiceDate = serviceDate;
+    }
+}
+
+// Class to represent four-wheelers (base for all four-wheelers)
+class FourWheeler extends BaseVehicle {
     public FourWheeler(String serviceDate) {
-        this.lastVehicleServiceDate = serviceDate;
+        super(serviceDate);
     }
 
     @Override
@@ -49,76 +53,62 @@ class FourWheeler implements Vehicle {
     }
 }
 
-// Class to represent the Wagonr vehicle (inherits from FourWheeler)
+// Specific vehicle class for Wagonr
 class Wagonr extends FourWheeler {
-
-    // Default constructor
-    public Wagonr() {
-        super("Default Service Date"); // Call parent constructor with a default value
-        totalVehicles++;
-    }
-
-    // Overloaded constructor
-    public Wagonr(String currDate) {
-        super("12 November 2024"); // Call parent constructor with a specific date
-        totalVehicles++;
+    public Wagonr(String serviceDate) {
+        super(serviceDate);
     }
 
     @Override
     public void displayInfo() {
-        System.out.println("Displaying info about Wagonr:");
-        System.out.println("Distance driven: 100km, Mileage: 15kmpl, Last service date: " + lastVehicleServiceDate);
-    }
-
-    public static int getTotalVehicles() {
-        return totalVehicles;
+        System.out.println("Wagonr Info: Distance driven: 100km, Mileage: 15kmpl, Last service date: " + lastServiceDate);
     }
 }
 
-// Class to represent the HondaCity vehicle (inherits from FourWheeler)
+// Specific vehicle class for HondaCity
 class HondaCity extends FourWheeler {
-
-    // Default constructor
-    public HondaCity() {
-        super("Default Service Date"); // Call parent constructor with a default value
-        totalVehicles++;
-    }
-
-    public HondaCity(String currDate) {
-        super("24 October 2024"); // Pass service date to parent class
-        Wagonr.totalVehicles++;
+    public HondaCity(String serviceDate) {
+        super(serviceDate);
     }
 
     @Override
     public void displayInfo() {
-        System.out.println("Displaying info about HondaCity:");
-        System.out.println("Distance driven: 50km, Mileage: 10kmpl, Last service date: " + lastVehicleServiceDate);
+        System.out.println("HondaCity Info: Distance driven: 50km, Mileage: 10kmpl, Last service date: " + lastServiceDate);
     }
 }
 
-// Class to represent the Duke390 vehicle (Inheritance Example 2: Implements Interface)
-class Duke390 implements Vehicle {
-    private String currDate;
-    private final String lastVehicleServiceDate = "24 July 2024";
-
-    // Default constructor
-    public Duke390() {
-        Wagonr.totalVehicles++;
-    }
-
-    public Duke390(String currDate) {
-        this.currDate = currDate;
-        Wagonr.totalVehicles++;
+// Specific vehicle class for Duke390 (a two-wheeler)
+class Duke390 extends BaseVehicle {
+    public Duke390(String serviceDate) {
+        super(serviceDate);
     }
 
     @Override
     public void displayInfo() {
-        System.out.println("Displaying info about Duke390:");
-        System.out.println("Distance driven: 250km, Mileage: 8kmpl, Last service date: " + lastVehicleServiceDate);
+        System.out.println("Duke390 Info: Distance driven: 250km, Mileage: 8kmpl, Last service date: " + lastServiceDate);
     }
 }
 
-// Main class to interact with the user
+// Service class to manage vehicle-related operations
+class VehicleService {
+    private List<Vehicle> vehicles = new ArrayList<>();
+
+    public void addVehicle(Vehicle vehicle) {
+        vehicles.add(vehicle);
+    }
+
+    public void displayAllVehicles() {
+        for (Vehicle vehicle : vehicles) {
+            vehicle.displayInfo();
+        }
+    }
+
+    public int getTotalVehicles() {
+        return vehicles.size();
+    }
+}
+
+// Main class to handle user interaction
 public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
@@ -143,17 +133,17 @@ public class Main {
         System.out.print("Press 1 for four-wheelers, or 2 for two-wheelers: ");
         int userChoice = sc.nextInt();
 
-        ArrayList<Vehicle> vehicles = new ArrayList<>();
+        VehicleService vehicleService = new VehicleService();
 
         // Add vehicles based on the user’s choice
         switch (userChoice) {
             case 1:
-                vehicles.add(new Wagonr("14 December 2024"));
-                vehicles.add(new HondaCity("14 December 2024"));
+                vehicleService.addVehicle(new Wagonr("14 December 2024"));
+                vehicleService.addVehicle(new HondaCity("14 December 2024"));
                 break;
 
             case 2:
-                vehicles.add(new Duke390("14 December 2024"));
+                vehicleService.addVehicle(new Duke390("14 December 2024"));
                 break;
 
             default:
@@ -164,13 +154,11 @@ public class Main {
 
         // Display vehicle information
         System.out.println("\nHey " + user.getName() + ", here are the vehicles in your garage:");
-        for (Vehicle vehicle : vehicles) {
-            vehicle.displayInfo();
-        }
+        vehicleService.displayAllVehicles();
 
         // Display total counts
         System.out.println("\nTotal users so far: " + UserInfo.getTotalUsers());
-        System.out.println("Total vehicles recorded: " + Wagonr.getTotalVehicles());
+        System.out.println("Total vehicles recorded: " + vehicleService.getTotalVehicles());
 
         sc.close();
     }
