@@ -51,7 +51,7 @@ class Wagonr extends FourWheeler {
     public static int totalVehicles = 0; // Tracks total number of vehicles
 
     public Wagonr(String currDate) {
-        super("12 November 2024"); // Pass service date to parent class
+        super("12 November 2024"); // Call the parent constructor
         totalVehicles++;
     }
 
