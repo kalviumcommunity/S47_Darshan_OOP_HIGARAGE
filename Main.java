@@ -32,60 +32,65 @@ class UserInfo {
     }
 }
 
-// Class to represent the Wagonr vehicle
-class Wagonr implements Vehicle {
-    private String currDate; // Stores current date
-    private final String lastVehicleServiceDate = "12 November 2024"; // Service date (constant)
-    public static int totalVehicles = 0; // Tracks total number of vehicles of any type
+// Parent class for four-wheelers (Inheritance Example 1: Class Inheritance)
+class FourWheeler implements Vehicle {
+    protected String lastVehicleServiceDate; // Service date (protected for inheritance)
 
-    // Constructor to initialize currDate and increment vehicle count
+    public FourWheeler(String serviceDate) {
+        this.lastVehicleServiceDate = serviceDate;
+    }
+
+    @Override
+    public void displayInfo() {
+        System.out.println("This is a generic four-wheeler.");
+    }
+}
+
+// Class to represent the Wagonr vehicle (inherits from FourWheeler)
+class Wagonr extends FourWheeler {
+    public static int totalVehicles = 0; // Tracks total number of vehicles
+
     public Wagonr(String currDate) {
-        this.currDate = currDate;
+        super("12 November 2024"); // Pass service date to parent class
         totalVehicles++;
     }
 
-    // Displays information about the Wagonr
+    @Override
     public void displayInfo() {
         System.out.println("Displaying info about Wagonr:");
         System.out.println("Distance driven: 100km, Mileage: 15kmpl, Last service date: " + lastVehicleServiceDate);
     }
 
-    // Static method to get the total vehicle count
     public static int getTotalVehicles() {
         return totalVehicles;
     }
 }
 
-// Class to represent the HondaCity vehicle
-class HondaCity implements Vehicle {
-    private String currDate; // Stores current date
-    private final String lastVehicleServiceDate = "24 October 2024"; // Service date (constant)
-
-    // Constructor to initialize currDate and increment vehicle count
+// Class to represent the HondaCity vehicle (inherits from FourWheeler)
+class HondaCity extends FourWheeler {
     public HondaCity(String currDate) {
-        this.currDate = currDate;
+        super("24 October 2024"); // Pass service date to parent class
         Wagonr.totalVehicles++;
     }
 
-    // Displays information about the HondaCity
+    @Override
     public void displayInfo() {
         System.out.println("Displaying info about HondaCity:");
         System.out.println("Distance driven: 50km, Mileage: 10kmpl, Last service date: " + lastVehicleServiceDate);
     }
 }
 
-// Class to represent the Duke390 vehicle
+// Class to represent the Duke390 vehicle (Inheritance Example 2: Implements Interface)
 class Duke390 implements Vehicle {
-    private String currDate; // Stores current date
-    private final String lastVehicleServiceDate = "24 July 2024"; // Service date (constant)
+    private String currDate;
+    private final String lastVehicleServiceDate = "24 July 2024";
 
-    // Constructor to initialize currDate and increment vehicle count
     public Duke390(String currDate) {
         this.currDate = currDate;
         Wagonr.totalVehicles++;
     }
 
-    // Displays information about the Duke390
+    @Override
     public void displayInfo() {
         System.out.println("Displaying info about Duke390:");
         System.out.println("Distance driven: 250km, Mileage: 8kmpl, Last service date: " + lastVehicleServiceDate);
@@ -140,7 +145,6 @@ public class Main {
         System.out.println("\nHey " + user.getName() + ", here are the vehicles in your garage:");
         for (Vehicle vehicle : vehicles) {
             vehicle.displayInfo();
-            vehicle = null;
         }
 
         // Display total counts
