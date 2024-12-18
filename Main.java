@@ -1,7 +1,9 @@
 import java.util.*;
 
 // Interface to define the behavior of all vehicles
+// Created an interface which will be serving as a base class to all the vehicles. 
 interface Vehicle {
+    // created a virtual function with no return type
     void displayInfo(); // Common method for all vehicles
 }
 
